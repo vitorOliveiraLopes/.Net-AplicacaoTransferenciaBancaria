@@ -54,10 +54,10 @@ namespace AplicacaoDeTransferenciaBancaria.Classes
 		public override string ToString()
 		{
 			string retorno = "";
-			retorno += "TipoConta " + this.TipoConta + " | ";
-			retorno += "Nome " + this.Nome + " | ";
-			retorno += "Saldo " + this.Saldo + " | ";
-			retorno += "Crédito " + this.Credito;
+			retorno += "TipoConta: " + this.TipoConta + " | ";
+			retorno += "Nome: " + this.Nome + " | ";
+			retorno += "Saldo: " + this.Saldo + " | ";
+			retorno += "Crédito: " + this.Credito;
 			return retorno;
 		}
 	}
