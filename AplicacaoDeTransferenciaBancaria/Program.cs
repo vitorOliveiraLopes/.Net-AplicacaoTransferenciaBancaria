@@ -25,13 +25,13 @@ namespace AplicacaoDeTransferenciaBancaria
                         InserirConta();
                         break;
                     case "3":
-                        //Transferir();
+                        Transferir();
                         break;
                     case "4":
                         Sacar();
                         break;
                     case "5":
-                        //Depositar();
+                        Depositar();
                         break;
                     case "C":
                         Console.Clear();
@@ -129,6 +129,32 @@ namespace AplicacaoDeTransferenciaBancaria
             double valorSaque = double.Parse(Console.ReadLine());
 
             listaContas[numeroConta].Sacar(valorSaque);
+        }
+
+        private static void Transferir()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Insira o numero da conta de origem: ");
+            int numeroContaOrigem = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Insira o valor que deseja transferir: ");
+            double valor = double.Parse(Console.ReadLine());
+
+            Console.WriteLine("Insira o numero da conta para a qual deseja realizar a transferencia: ");
+            int numeroContaDestino = int.Parse(Console.ReadLine());
+
+            listaContas[numeroContaOrigem].Transferir(valor, listaContas[numeroContaDestino]);
+        }
+
+        public static void Depositar()
+        {
+            Console.WriteLine("Insira o numero da conta na qual deseja realizar o depósito: ");
+            int numeroConta = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Insira o valor que deseja depositar: ");
+            double valor = double.Parse(Console.ReadLine());
+
+            listaContas[numeroConta].Depositar(valor);
         }
     }
 }
