@@ -10,14 +10,16 @@ namespace AplicacaoDeTransferenciaBancaria.Classes
 		private double Saldo { get; set; }
 		private double Credito { get; set; }
 		private string Nome { get; set; }
+		public string[] ChavesPix { get; set; }
 
 		//Construtor
-		public Conta(TipoConta tipoConta, double saldo, double credito, string nome)
+		public Conta(TipoConta tipoConta, double saldo, double credito, string nome, string[] chavesPix)
 		{
 			this.TipoConta = tipoConta;
 			this.Saldo = saldo;
 			this.Credito = credito;
 			this.Nome = nome;
+			this.ChavesPix = chavesPix;
 		}
 
 		//Métodos
@@ -57,8 +59,15 @@ namespace AplicacaoDeTransferenciaBancaria.Classes
 			retorno += "TipoConta: " + this.TipoConta + " | ";
 			retorno += "Nome: " + this.Nome + " | ";
 			retorno += "Saldo: " + this.Saldo + " | ";
-			retorno += "Crédito: " + this.Credito;
-			return retorno;
+			retorno += "Crédito: " + this.Credito + " | ";
+			retorno += "Chaves PIX: ";
+
+            foreach (var data in ChavesPix)
+            {
+				retorno += data + " | ";
+            }
+
+            return retorno;
 		}
 	}
 }

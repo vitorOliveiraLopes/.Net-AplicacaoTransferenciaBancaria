@@ -2,6 +2,7 @@
 using AplicacaoDeTransferenciaBancaria.Enum;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AplicacaoDeTransferenciaBancaria
 {
@@ -33,6 +34,12 @@ namespace AplicacaoDeTransferenciaBancaria
                     case "5":
                         Depositar();
                         break;
+                    case "6":
+                        RemoverConta();
+                        break;
+                    case "7":
+                        RemoverChavePix();
+                        break;
                     case "C":
                         Console.Clear();
                         break;
@@ -61,6 +68,8 @@ namespace AplicacaoDeTransferenciaBancaria
             Console.WriteLine("3- Transferir");
             Console.WriteLine("4- Sacar");
             Console.WriteLine("5- Depositar");
+            Console.WriteLine("6- Remover conta");
+            Console.WriteLine("7- Remover chave PIX");
             Console.WriteLine("C- Limpar tela");
             Console.WriteLine("X- Sair");
             Console.WriteLine();
@@ -95,9 +104,28 @@ namespace AplicacaoDeTransferenciaBancaria
             string nomeContaNova = Console.ReadLine();
             Console.WriteLine();
 
-            Conta novaConta = new Conta((TipoConta)tipoContaNova, saldoContaNova, creditoContaNova, nomeContaNova);
+            Console.WriteLine("Deseja adicionar chaves PIX ? (S / N)");
+            string adicionarChave = Console.ReadLine().ToUpper();
 
-            listaContas.Add(novaConta);
+            if (adicionarChave == "S")
+            {
+                List<string> listaPix = AdicionarChavesPix();
+                Conta novaContaComPix = new Conta((TipoConta)tipoContaNova, saldoContaNova, creditoContaNova, nomeContaNova, listaPix.ToArray());
+                listaContas.Add(novaContaComPix);
+                return;
+            }
+
+            string[] mensagem = { "Nenhuma chave adicionada" };
+            Conta novaContaSemPix = new Conta((TipoConta)tipoContaNova, saldoContaNova, creditoContaNova, nomeContaNova, mensagem);
+            listaContas.Add(novaContaSemPix);
+        }
+
+        private static void RemoverConta()
+        {
+            Console.WriteLine("Insira o número da conta que deseja remover: ");
+            int numeroConta = int.Parse(Console.ReadLine());
+
+            listaContas.RemoveAt(numeroConta);
         }
 
         private static void ListarContas()
@@ -155,6 +183,40 @@ namespace AplicacaoDeTransferenciaBancaria
             double valor = double.Parse(Console.ReadLine());
 
             listaContas[numeroConta].Depositar(valor);
+        }
+
+        public static List<string> AdicionarChavesPix()
+        {
+            List<string> listaChavesPixNova = new List<string>();
+
+            Console.WriteLine();
+
+            Console.WriteLine("Insira as chaves PIX: ");
+
+            for (int j = 0; j < 3; j++)
+            {
+                string chave = Console.ReadLine();
+
+                listaChavesPixNova.Add(chave);
+            }
+
+            return listaChavesPixNova;
+
+        }
+
+        public static void RemoverChavePix()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Insira o numero da conta: ");
+            int numeroConta = int.Parse(Console.ReadLine());
+
+            Console.WriteLine();
+            Console.WriteLine("Insira o indice da chave PIX que deseja remover: ");
+            int indicePix = int.Parse(Console.ReadLine());
+
+            Conta contaSelecionada = listaContas[numeroConta];
+
+            contaSelecionada.ChavesPix = contaSelecionada.ChavesPix.Where((source, index) => index != indicePix).ToArray();
         }
     }
 }
